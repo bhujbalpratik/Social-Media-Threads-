@@ -69,3 +69,33 @@ export const logout = async (req, res, next) => {
     next(error)
   }
 }
+
+export const friendUnfriend = async (req, res) => {
+  try {
+    const { id } = req.params
+    const friend = await User.findById(id)
+    const currentUser = await User.findById(req.user._id)
+
+    if (id === currentUser._id)
+      return next(errorHandler(400, "You cant do this"))
+
+    if (!friend || !currentUser)
+      return next(errorHandler(400, "User not found"))
+
+    const isFriend = currentUser.friends.includes(id)
+
+    if (isFriend) {
+      // Unfriend
+      await User.findByIdAndUpdate(id, { $pull: { friends: req.user._id } })
+      await User.findByIdAndUpdate(currentUser, { $pull: { friends: id } })
+      res.status(201).json({ message: "Remove friend successfully" })
+    } else {
+      // friend
+      await User.findByIdAndUpdate(id, { $push: { friends: req.user._id } })
+      await User.findByIdAndUpdate(currentUser, { $push: { friends: id } })
+      res.status(201).json({ message: "Add friend successfully" })
+    }
+  } catch (error) {
+    next(error)
+  }
+}

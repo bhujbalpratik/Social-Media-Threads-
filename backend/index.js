@@ -1,7 +1,6 @@
 import express from "express"
 import { config } from "dotenv"
 import cors from "cors"
-import { fileURLToPath } from "url"
 import userRouter from "./routes/user.router.js"
 import { mongoConnection } from "./data/mongoose.js"
 import { errorMiddleware } from "./middleware/error.middleware.js"
