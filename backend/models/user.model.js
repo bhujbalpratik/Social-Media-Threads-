@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema(
     },
     bio: {
       type: String,
-      default: "",
+      default: "Embracing the beauty of true friendship 💕",
     },
   },
   { timestamps: true }
