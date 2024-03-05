@@ -8,7 +8,6 @@ export const isAuthenticated = (req, res, next) => {
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return next(errorHandler(500, "Token is not valid"))
     req.user = user
-    console.log("User from cookie : ", req.user)
     next()
   })
 }
